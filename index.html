@@ -115,7 +115,6 @@ p{margin:0}
 .hero-text{container-type:inline-size; min-width:0}
 .hero-title{margin:0; font-size:var(--t-hero); font-size:min(4.4rem,9cqi); font-stretch:125%; font-weight:520; line-height:1.02; letter-spacing:-.012em}
 .hero-lede{margin-top:clamp(22px,2.6vw,32px); max-width:34em; font-size:clamp(1.0625rem,.98rem + .35vw,1.25rem); line-height:1.55; color:var(--ink-soft)}
-.hero-affil{margin-top:18px; font-size:var(--t-small); color:var(--ink)}
 .hero-actions{display:flex; flex-wrap:wrap; gap:12px; margin-top:32px}
 @media (max-width:520px){ .hero-title .nowrap{white-space:normal} }
 
@@ -134,13 +133,11 @@ p{margin:0}
 .photo-hero .hero-text{max-width:780px}
 .photo-hero .hero-title{color:var(--on-photo); font-size:clamp(2.2rem,1rem + 4.4vw,4.6rem); font-size:min(4.6rem,9cqi); text-shadow:0 2px 32px rgba(0,0,0,.28)}
 .photo-hero .hero-lede{color:var(--on-photo-soft); max-width:31em}
-.photo-hero .hero-affil{color:var(--on-photo)}
 .btn-light{background:var(--on-photo); color:var(--photo-ink)}
 .btn-light:hover{background:#FFFFFF; color:var(--photo-ink)}
 .btn-ghost{border-color:rgba(246,247,251,.5); color:var(--on-photo); background:rgba(246,247,251,.05); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px)}
 .btn-ghost:hover{background:rgba(246,247,251,.16); border-color:var(--on-photo)}
 .photo-hero :focus-visible{outline-color:var(--on-photo)}
-.ph-cap{position:absolute; right:var(--gutter); bottom:22px; margin:0; font-size:.75rem; color:var(--on-photo-soft)}
 @media (max-width:700px){
   .photo-hero{align-items:flex-end}
   .ph-bg img{object-position:50% 50%}
@@ -148,7 +145,6 @@ p{margin:0}
     linear-gradient(180deg, rgba(5,8,22,.62) 0%, rgba(5,8,22,0) 22%),
     linear-gradient(0deg, rgba(5,8,22,.95) 0%, rgba(5,8,22,.78) 44%, rgba(5,8,22,.24) 74%, rgba(5,8,22,.08) 100%)}
   .ph-inner{padding-block:calc(var(--head-h, 100px) + 32px) 64px}
-  .ph-cap{left:var(--gutter); right:auto; bottom:20px}
 }
 /* Header while it sits on the photo */
 .site-head.over-photo{background:transparent; -webkit-backdrop-filter:none; backdrop-filter:none; border-bottom-color:transparent}
@@ -566,15 +562,13 @@ button.ph-tile:hover img{transform:scale(1.035)}
     <div class="wrap ph-inner">
       <div class="hero-text">
         <h1 class="hero-title" id="h-lab">Energy Device and <span class="nowrap">Nano-Engineering</span> Laboratory</h1>
-        <p class="hero-lede">Better batteries, displays and chips depend on how precisely their layers are formed and joined: nanometer-thin films stacked in batch processes for chips and displays, and solid sheets bonded over large areas on continuous roll-to-roll lines for batteries. We develop precision manufacturing processes, grounded in mechanics, for solid-state batteries, optoelectronic devices, 2D material devices and next-generation semiconductors.</p>
-        <p class="hero-affil">Department of Mechanical Engineering, Seoul National University</p>
+        <p class="hero-lede">We envision a future in which the advanced devices that power and illuminate the physical world, and the brain-inspired chips that learn from it using a fraction of the energy, can be made as precisely as they are designed. We create the manufacturing processes that make this possible, at every scale, from a single atomic layer to a continuous <span class="nowrap">roll-to-roll</span> line.</p>
         <div class="hero-actions">
           <a class="btn btn-light" href="#research" data-go="research">Explore our research</a>
           <a class="btn btn-ghost" href="#join" data-go="join">Join us</a>
         </div>
       </div>
     </div>
-    <p class="ph-cap"><span>Probe station in the lab, 2025</span></p>
   </section>
 
   <section class="wrap stats-band" aria-label="The lab in numbers">
