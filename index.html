@@ -251,7 +251,7 @@ a.tag:hover{background:var(--accent); color:var(--accent-ink); border-color:var(
 .area-fig{margin:0; min-width:0; position:sticky; top:calc(var(--head-h,68px) + 32px); align-self:start}
 .area-fig .stack{width:100%; max-width:360px; height:auto; display:block}
 .area-fig figcaption{margin-top:12px; font-size:var(--t-cap); color:var(--ink-faint)}
-.area-text{min-width:0; display:grid; gap:24px; align-content:start}
+.area-text{min-width:0; display:grid; grid-template-columns:minmax(0,1fr); gap:24px; align-content:start}
 .area-text h2{margin:0; display:flex; align-items:center; gap:14px; font-size:var(--t-h2); font-stretch:118%; font-weight:540; line-height:1.1}
 .area-text h2 .key{width:14px; height:14px}
 .area-text .lead{color:var(--ink-soft); max-width:64ch}
@@ -479,18 +479,25 @@ button.ph-tile:hover img{transform:scale(1.035)}
 }
 .gallery{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px}
 .gallery .ph-tile{aspect-ratio:3/2}
+/* Photos in a row at equal height: each column is as wide as its photo's aspect ratio (set inline). */
+.lead-figs{display:grid; grid-template-columns:var(--cols); gap:12px; align-items:start; max-width:64ch}
+.lead-figs figure{margin:0; min-width:0}
+.lead-figs .ph-tile{aspect-ratio:var(--ar)}
+.lead-figs figcaption{margin-top:6px; font-size:var(--t-cap); line-height:1.4; color:var(--ink-faint); overflow-wrap:break-word}
 .gallery .wide{grid-column:span 2}
 @media (max-width:900px){ .gallery{grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media (max-width:520px){ .gallery{grid-template-columns:minmax(0,1fr); gap:8px} .gallery .wide{grid-column:auto} }
+@media (max-width:520px){ .gallery{grid-template-columns:minmax(0,1fr); gap:8px} .gallery .wide{grid-column:auto} .lead-figs{gap:8px} }
 .facilities{padding-bottom:clamp(64px,8vw,112px)}
 #lightbox{border:0; padding:0; background:transparent; width:min(1120px,94vw); max-width:94vw; max-height:94vh; overflow:visible}
 #lightbox::backdrop{background:rgba(6,8,18,.84)}
 #lightbox figure{margin:0; display:grid; gap:12px; position:relative}
-#lightbox img{display:block; width:100%; height:auto; max-height:80vh; object-fit:contain; border-radius:8px; background:#0d0f1a}
+#lightbox img{display:block; width:100%; max-width:100%; height:auto; max-height:80vh; margin-inline:auto; object-fit:contain; border-radius:8px; background:#0d0f1a}
 #lightbox figcaption{color:var(--chip-fg); font-size:.9375rem}
 #lightbox.is-fig{width:fit-content; min-width:min(420px,94vw)}
 #lightbox.is-fig img{background:#fff; max-width:100%; margin-inline:auto; padding:clamp(8px,1.4vw,18px)}
 #lightbox.is-cover img{padding:0; border-radius:4px}
+#lightbox.is-photo{width:fit-content; min-width:min(320px,94vw)}
+#lightbox.is-photo figcaption{width:0; min-width:100%}
 #lightbox.is-fig figcaption{line-height:1.55; width:0; min-width:100%; text-align:center}
 #lightbox.is-fig figcaption .lb-src{color:var(--on-photo-soft); margin-left:6px}
 #lightbox.is-fig figcaption a{color:inherit; margin-left:10px; white-space:nowrap; text-underline-offset:3px}
@@ -651,6 +658,7 @@ button.ph-tile:hover img{transform:scale(1.035)}
   <header class="wrap page-head">
     <h1 class="page-title">Research</h1>
     <p class="page-intro">Many of the devices that will matter most in the coming decades cannot yet be made well at scale: batteries that store more energy safely, light sources and displays small enough to wear, and chips that compute and move data with far less energy. What makes them hard to build is how their layers must be formed and joined. Chips and displays are built in batch processes, one wafer or panel at a time, with layers only nanometers thick and features smaller than ever. Solid-state batteries are built on continuous roll-to-roll lines, where solid sheets must bond completely across large areas at line speed. In every case, dissimilar layers must be joined without damage, the interfaces must stay intact while the device operates, and all of it must be made reliably and at high yield. That is a manufacturing problem governed by solid mechanics and energy transfer, which makes it a mechanical engineering problem, and it is the one we work on.</p>
+    <p class="page-intro">Our work also connects to AI-driven autonomous manufacturing, in which production lines set and adjust their own process conditions. Such a line can only be as good as the process knowledge it runs on: which physical quantities decide the outcome, and where their limits lie. Building that knowledge from mechanics and energy transfer is at the center of what we do, and in our battery work we already use data-driven models to screen cells from their measured characteristics before they are assembled into packs.</p>
   </header>
 
   <section class="wrap block" aria-labelledby="h-procs">
@@ -759,10 +767,11 @@ button.ph-tile:hover img{transform:scale(1.035)}
 const AREA_ORDER = ['bat', 'opt', 'twod', 'semi'];
 const AREAS = {
   bat: {
-    name: 'Solid-state batteries', need: 'Safer, higher-energy batteries',
-    summary: 'Electric vehicles and portable electronics need batteries that store more energy and do not catch fire. For solid-state batteries, we develop roll-to-roll lamination that bonds solid sheets across large areas at high speed, and the operating conditions that keep those interfaces intact.',
-    lead: 'Electric vehicles and portable electronics run up against the battery: how much energy it stores for its weight, and whether it can catch fire. Solid-state batteries address both, and lab cells have already demonstrated strong performance. Bringing them to mass production depends above all on lamination: bonding solid sheets, such as a cathode sheet and a solid electrolyte sheet, completely across a large area and at the speed of a continuous roll-to-roll line. We design these processes from mechanical principles, applying heat and pressure so that the layers deform plastically into full contact without cracking. The bonded interface must then keep its integrity while the cell operates and its electrodes expand and contract with every cycle, so we also derive and design the operating conditions, such as pressure and temperature, that keep it intact, drawing on our work on how stress couples to lithium transport and why solid electrolyte films fail in pouch cells. Dry, solvent-free electrode processing, finite element models of cell manufacturing, AI-driven cell screening and a fundamental study of how thin a solid electrolyte can be made support this work.',
-    topics: ['Roll-to-roll lamination', 'Solid-to-solid interface bonding', 'Interface integrity during operation', 'Plastic deformation of battery materials', 'Lithium mechanics', 'Dry electrode processing', 'Finite element simulation of cell manufacturing', 'Thin solid electrolytes and their limits', 'AI-driven cell screening', 'Electrochemical thin-film deposition'],
+    name: 'Advanced batteries', need: 'Safer, longer-lasting batteries, from cell to pack',
+    summary: 'From electric vehicles to satellites, batteries must store more energy, stay safe and last longer. We develop roll-to-roll lamination that bonds solid-state cells across large areas, and long-life lithium-ion packs for satellites in low-Earth orbit (LEO).',
+    lead: 'Electric vehicles and portable electronics run up against the battery: how much energy it stores for its weight, and whether it can catch fire. Solid-state batteries address both, and lab cells have already demonstrated strong performance. Bringing them to mass production depends above all on lamination: bonding solid sheets, such as a cathode sheet and a solid electrolyte sheet, completely across a large area and at the speed of a continuous roll-to-roll line. We design these processes from mechanical principles, applying heat and pressure so that the layers deform plastically into full contact without cracking. The bonded interface must then keep its integrity while the cell operates and its electrodes expand and contract with every cycle, so we also derive and design the operating conditions, such as pressure and temperature, that keep it intact, drawing on our work on how stress couples to lithium transport and why solid electrolyte films fail in pouch cells. Dry, solvent-free electrode processing, finite element models of cell manufacturing and a fundamental study of how thin a solid electrolyte can be made support this work.\n\nReliability does not end at the cell. A battery pack is only as durable as its weakest cell, so small cell-to-cell differences left by manufacturing decide how long it lasts. Satellites in low-Earth orbit (LEO) pass through Earth\u2019s shadow about fifteen times a day, so their batteries cycle tens of thousands of times over a mission, after surviving the vibration and shock of launch. In a national project led by Seoul National University to develop 2,900 Wh-class lithium-ion cells and packs for LEO satellites, we study how the cells in a pack age together and use data-driven models to screen cells from their measured characteristics, so that the pack keeps its capacity for the whole mission.',
+    topics: ['Roll-to-roll lamination', 'Solid-to-solid interface bonding', 'Interface integrity during operation', 'Plastic deformation of battery materials', 'Lithium mechanics', 'Dry electrode processing', 'Finite element simulation of cell manufacturing', 'Thin solid electrolytes and their limits', 'Electrochemical thin-film deposition', 'Battery packs for LEO satellites', 'Cell-to-cell variation and pack ageing', 'AI-driven cell screening'],
+    figs: ['leo-pack', 'thermal-vacuum', 'cell-test-256'],
     papers: ['joule26', 'adma26', 'dry26', 'si23'],
     stack: { title: 'All-solid-state Li metal cell', layers: [
       { l: 'Cu current collector', h: 7, f: 'cu' },
@@ -1035,7 +1044,7 @@ const GROUPS = [
       topics: ['Perovskite thin-film solar cells'],
       bg: ['B.S., Mechanical Engineering, Ulsan National Institute of Science and Technology (2025)'] },
     { en: 'Woogyeong Han', ko: '한우경', areas: ['bat'], scholar: S('3aSQP-4AAAAJ'),
-      topics: ['Solid-state batteries', 'AI-driven battery performance prediction and cell screening'],
+      topics: ['Battery packs for LEO satellites', 'AI-driven battery performance prediction and cell screening'],
       bg: ['B.S., Mechanical Engineering, Seoul National University (2024)'] },
     { en: 'Deok Ryu', ko: '류덕', areas: ['bat'], scholar: S('jh6HCLkAAAAJ'),
       topics: ['Solid-state battery manufacturing systems', 'Solid mechanics and plastic deformation'],
@@ -1148,10 +1157,14 @@ const LAB = {
   'afm': { w: 1400, h: 1050, cap: 'Atomic force microscope' },
   'glovebox': { w: 1400, h: 933, cap: 'Working in a glovebox' },
   'gloveboxes': { w: 1400, h: 1050, cap: 'Glovebox line' },
-  'battery-cyclers': { w: 1400, h: 933, cap: 'Battery cyclers' }
+  'battery-cyclers': { w: 1400, h: 933, cap: 'Battery cyclers' },
+  'cell-test-256': { w: 1400, h: 1460, cap: '256-channel 18650 cell test system with temperature chambers' },
+  'thermal-vacuum': { w: 1400, h: 1210, cap: 'Thermal vacuum test chamber for satellite battery packs' },
+  'leo-pack': { w: 1400, h: 1147, cap: 'Battery pack for a LEO satellite' }
+  // A photo only available small can be added with one: true, as a single file img/lab/<slug>.webp at its native size.
 };
 const HOME_MOSAIC = ['microscope', 'deposition-control', 'battery-cyclers', 'sem', 'solar-simulator', 'chips-hotplate'];
-const GALLERY = ['yellow-room', 'deposition-control', 'microscope', 'probe-station', 'chips-hotplate', 'sem', 'afm', 'solar-simulator', 'glovebox', 'gloveboxes', 'vacuum-chamber', 'battery-cyclers'];
+const GALLERY = ['yellow-room', 'deposition-control', 'microscope', 'probe-station', 'chips-hotplate', 'sem', 'afm', 'solar-simulator', 'vacuum-chamber', 'glovebox', 'gloveboxes', 'battery-cyclers', 'cell-test-256', 'thermal-vacuum'];
 const AREA_PHOTOS = { bat: 'battery-cyclers', opt: 'solar-simulator', twod: 'afm', semi: 'probe-station' };
 // Journal cover art in img/covers/ (520px wide).
 /* Journal covers: every paper with c: shows up in the cover gallery. cv names the image in
@@ -1203,6 +1216,7 @@ const MEMBERS = GROUPS.flatMap(g => g.people);
 const initials = n => n.split(/[\s-]+/).filter(Boolean).map(w => w[0]).filter((c, i, a) => i === 0 || i === a.length - 1).join('').toUpperCase();
 function labImg(slug, sizes, eager) {
   const p = LAB[slug];
+  if (p.one) return `<img src="img/lab/${slug}.webp" width="${p.w}" height="${p.h}" alt="${esc(p.cap)}" ${eager ? '' : 'loading="lazy" '}decoding="async">`;
   return `<img src="img/lab/${slug}-700.webp" srcset="img/lab/${slug}-700.webp 700w, img/lab/${slug}-1400.webp 1400w" sizes="${sizes}" width="${p.w}" height="${p.h}" alt="${esc(p.cap)}" ${eager ? '' : 'loading="lazy" '}decoding="async">`;
 }
 function labTile(slug, cls, sizes) {
@@ -1357,7 +1371,8 @@ function renderResearch() {
       <figure class="area-fig">${AREA_PHOTOS[id] ? `<div class="area-photo">${labImg(AREA_PHOTOS[id], '(max-width: 860px) 100vw, 34vw')}</div><p class="photo-cap">${esc(LAB[AREA_PHOTOS[id]].cap)}</p>` : ''}${stackSVG(a.stack)}<figcaption>${esc(a.stack.title)}. Schematic, not to scale.</figcaption></figure>
       <div class="area-text">
         <div class="area-hd"><p class="need">${esc(a.need)}</p><h2 id="h-area-${id}"><span class="key" aria-hidden="true"></span>${esc(a.name)}</h2></div>
-        <p class="lead">${esc(a.lead)}</p>
+        ${a.lead.split('\n\n').map(t => `<p class="lead">${esc(t)}</p>`).join('')}${a.figs ? `
+        <div class="lead-figs" style="--cols:${a.figs.map(slug => `minmax(0,${(LAB[slug].w / LAB[slug].h).toFixed(3)}fr)`).join(' ')}">${a.figs.map(slug => `<figure><button type="button" class="ph-tile" data-photo="${slug}" style="--ar:${LAB[slug].w}/${LAB[slug].h}" aria-label="Enlarge photo: ${esc(LAB[slug].cap)}">${labImg(slug, '(max-width: 520px) 34vw, 240px')}</button><figcaption>${esc(LAB[slug].cap)}</figcaption></figure>`).join('')}</div>` : ''}
         <div><h3>Topics</h3><ul class="topics">${a.topics.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>
         <div><h3>Selected papers</h3><ol class="sel">${sel}</ol></div>
         <div><h3>People</h3><p class="names">${people.map(m => esc(m.en)).join(', ')}. <a href="#people" data-go="people" data-filter="${id}">See profiles</a></p></div>
@@ -1513,7 +1528,7 @@ function initLightbox() {
     const t = e.target.closest('[data-photo], [data-fig], [data-cover]');
     if (!t) return;
     opener = t;
-    dlg.classList.remove('is-cover');
+    dlg.classList.remove('is-cover', 'is-photo');
     if (t.dataset.cover) {
       const c = COVERS[+t.dataset.cover], [w, h] = COVER_DIM[c.img];
       const scale = Math.min(1, 1120 / w, (window.innerHeight * 0.78) / h);
@@ -1532,9 +1547,9 @@ function initLightbox() {
       cap.innerHTML = `${chem(p.t)}<span class="lb-src"><i>${esc(p.v)}</i> ${p.y}</span><a href="${esc(paperHref(p))}" ${EXT}>Open article</a>`;
     } else {
       const slug = t.dataset.photo, p = LAB[slug];
-      dlg.classList.remove('is-fig'); dlg.setAttribute('aria-label', 'Lab photo');
-      img.style.width = '';
-      img.src = `img/lab/${slug}-1400.webp`; img.width = p.w; img.height = p.h; img.alt = p.cap;
+      dlg.classList.remove('is-fig'); dlg.classList.add('is-photo'); dlg.setAttribute('aria-label', 'Lab photo');
+      img.style.width = Math.round(Math.min(p.one ? p.w * 1.3 : 1120, window.innerHeight * 0.8 * p.w / p.h)) + 'px';
+      img.src = p.one ? `img/lab/${slug}.webp` : `img/lab/${slug}-1400.webp`; img.width = p.w; img.height = p.h; img.alt = p.cap;
       cap.textContent = p.cap;
     }
     try { dlg.showModal(); } catch (err) { /* dialog unavailable */ }
@@ -1656,15 +1671,15 @@ const JOIN_T = {
     qsTitle: '실제로 다루는 질문',
     qs: [['칩을 수직으로 쌓는 하이브리드 본딩 계면은 열·기계적 사이클을 얼마나 견딜까?', '하이브리드 본딩'],
       ['이온의 이동으로 저항을 정밀하게 조절하는 전기화학 메모리로, 데이터를 옮기지 않고 메모리 안에서 바로 연산할 수 있을까?', '메모리 내 연산'],
-      ['셀 측정 데이터로 배터리 팩의 성능과 수명을 미리 예측할 수 있을까?', '데이터 기반 셀 스크리닝'],
+      ['위성에 들어갈 배터리 팩이 수만 번의 충방전을 견딜지, 셀 측정 데이터로 미리 알 수 있을까?', '위성용 배터리 팩'],
       ['박막을 깨뜨리지 않고 기판에서 떼어 내려면, 어느 계면에서 어떤 응력으로 파괴를 일으켜야 할까?', '층 분리·전사'],
       ['양극 시트와 고체전해질 시트를 넓은 면적에 걸쳐 빠르게 접합하려면, 열과 압력을 어떻게 가해야 균열 없이 완전히 붙을까?', '롤투롤 라미네이션'],
       ['충방전 중 전극이 부풀고 줄어드는 동안에도 계면 접촉이 온전히 유지되려면, 어떤 압력과 온도에서 운전해야 할까?', '계면 건전성'],
       ['롤투롤 공정에서 자립 전극 필름의 구조는 어떻게 변하고, 결함은 어디서 생길까?', '건식전극']],
     tracksH: '연구 분야와 배우는 기술', tracksMore: '연구 분야 자세히 보기', skillsLabel: '배우는 기술', readLabel: '먼저 읽어 볼 논문',
     tracks: {
-      bat: { name: '전고체전지', need: '더 안전하고 에너지 밀도 높은 배터리', sum: '고체 시트를 넓은 면적에 빠르게 접합하는 롤투롤 라미네이션, 동작 중 계면을 지키는 운전 조건 설계, 건식전극, 더 얇은 고체전해질',
-        skills: ['글로브박스 셀 조립', '열·압력 라미네이션', '충방전 평가', '건식전극 공정', '유한요소 해석'], read: ['joule26', '응력과 리튬 수송의 결합'] },
+      bat: { name: '차세대 배터리', need: '셀에서 팩까지, 더 안전하고 오래가는 배터리', sum: '고체 시트를 넓은 면적에 빠르게 접합하는 롤투롤 라미네이션, 동작 중 계면을 지키는 운전 조건 설계, 건식전극, 더 얇은 고체전해질, 저궤도(LEO) 위성용 장수명 배터리 팩',
+        skills: ['글로브박스 셀 조립', '열·압력 라미네이션', '충방전 평가', '건식전극 공정', '유한요소 해석', '셀 선별과 팩 수명 예측'], read: ['joule26', '응력과 리튬 수송의 결합'] },
       opt: { name: '광전소자', need: '빛을 전기로, 전기를 빛으로', sum: '페로브스카이트 태양전지, 투명전극, 마이크로LED 디스플레이',
         skills: ['용액·진공 박막 공정', '태양전지 제작과 효율 측정', '에어로졸 증착', '투명전극'], read: ['deint24', '한 방향으로 배향된 페로브스카이트 박막'] },
       twod: { name: '2차원 소재 소자', need: '고성능 트랜지스터와 빛을 스위칭하는 광소자', sum: '단결정 RP(Ruddlesden-Popper) 페로브스카이트와 TMD 같은 2차원 소재로 고성능 트랜지스터와 광집적회로용 소자를 만드는 공정',
@@ -1693,7 +1708,7 @@ const JOIN_T = {
       ['기계공학과 출신이라 화학이나 재료를 잘 모르는데 괜찮나요?', `재학생 ${f.grads}명 중 ${f.meFamily}명이 기계 계열 학부 출신입니다. 전기화학과 반도체 지식은 연구하면서 익히게 되고, 기계공학 배경은 역학 해석과 공정 설계에 바로 쓰입니다. 배경보다 중요한 것은 새로운 분야를 깊이 파고들려는 의지입니다.`],
       ['다른 학교나 다른 전공 출신도 지원할 수 있나요?', `네. 대학원생 ${f.grads}명 중 ${f.otherCount}명이 다른 대학 학부 출신이고, 기계공학 외에 재료, 나노·전기전자 전공자도 함께 연구합니다. 출신 학교보다는, 연구에 스스로 동기를 갖고 몰입하는 학생, 어려운 문제를 끝까지 붙드는 끈기 있는 학생을 환영합니다.`],
       ['회사를 다니다가 진학해도 되나요?', '네. 이윤석 교수도 SI 기업에서 약 3년간 소프트웨어 개발자로 일했고, IBM T.\u00a0J.\u00a0Watson 연구소에서 약 4년간 반도체 연구를 했습니다. 이런 기업 경험을 바탕으로 기업에서 온 연구원들과 함께 산학을 연결하는 연구를 활발히 수행하고 있습니다. 여러 기업에서 학술연수나 휴직 등을 통해 진학한 경우도 다수 있습니다.'],
-      ['연구실의 연구는 AI와 어떻게 연결되나요?', 'AI가 더 큰 계산을 더 적은 에너지로 해내려면 하드웨어도 함께 발전해야 하고, 우리 연구 중에서는 반도체 분야가 여기에 직접 닿아 있습니다. AI 연산에서는 메모리와 프로세서 사이에서 데이터를 옮기는 데 많은 에너지가 드는데, 우리는 메모리 안에서 바로 연산하는 전기화학 메모리와, 칩을 수직으로 쌓아 그 거리를 줄이는 층 전사와 하이브리드 본딩을 연구합니다. 배터리 연구에서는 셀 측정 데이터를 학습한 모델로 성능과 수명을 예측하는 등 AI를 연구 도구로도 활용합니다. 다만 우리 연구의 중심은 알고리즘이 아니라, 소자를 이루는 층을 정밀하게 만들고 접합하는 공정과 역학입니다. AI 자체를 개발하기보다 그 바탕이 되는 하드웨어를 만드는 데 관심이 있는 학생에게 잘 맞습니다.'],
+      ['연구실의 연구는 AI와 어떻게 연결되나요?', 'AI가 더 큰 계산을 더 적은 에너지로 해내려면 하드웨어도 함께 발전해야 하고, 우리 연구 중에서는 반도체 분야가 여기에 직접 닿아 있습니다. AI 연산에서는 메모리와 프로세서 사이에서 데이터를 옮기는 데 많은 에너지가 드는데, 우리는 메모리 안에서 바로 연산하는 전기화학 메모리와, 칩을 수직으로 쌓아 그 거리를 줄이는 층 전사와 하이브리드 본딩을 연구합니다. 배터리 연구에서는 셀 측정 데이터를 학습한 모델로 성능과 수명을 예측하는 등 AI를 연구 도구로도 활용합니다. 생산 라인이 공정 조건을 스스로 정하고 조정하는 AI 자율제조도 어떤 물리량이 결과를 좌우하고 그 한계가 어디인지에 대한 공정 지식 위에서 이루어지므로, 역학을 바탕으로 이 지식을 쌓는 우리 연구와 맞닿아 있습니다. 다만 우리 연구의 중심은 알고리즘이 아니라, 소자를 이루는 층을 정밀하게 만들고 접합하는 공정과 역학입니다. AI 자체를 개발하기보다 그 바탕이 되는 하드웨어를 만드는 데 관심이 있는 학생에게 잘 맞습니다.'],
       ['석사과정과 석박통합과정 중 어느 쪽으로 지원하는 게 좋을까요?', '자유롭게 선택하면 되고, 어느 과정으로 지원하든 입학 정원이나 합격 가능성에 큰 영향은 없습니다. 다만 석박통합과정으로 입학하면 박사과정으로 넘어갈 때 석사학위 논문 심사를 받지 않아도 되고, 전체 기간도 한 학기 정도 줄어듭니다. 또 원하면 언제든 석사과정으로 전환할 수 있지만, 석사과정에서 석박통합과정으로 바꾸는 것은 안 됩니다. 선택의 여지가 더 넓고 박사까지 할 경우 시간도 아낄 수 있어서, 석박통합과정이 더 좋은 선택이 될 수 있습니다.'],
       ['석사만 마치고 취업할 수 있나요?', `2021년 이후 석사 졸업생 ${f.ms}명 중 ${f.msIndustry}명이 삼성SDI, 삼성전자, SK하이닉스로 갔습니다.`],
       ['학위 중에 해외 연구 경험을 쌓을 수 있나요?', `${f.visitSince}년부터 매년 학생들이 ${f.visitInsts.map(i => shortName(i, 'ko')).join(', ')} 등 해외 연구실에서 1년 동안 방문연구를 했고, 지금까지 ${f.visitCount}명이 참여했습니다. 졸업 후에는 박사 졸업생 ${f.postdocAbroadN}명이 ${f.postdocAbroadInst.map(s => shortName(s, 'ko')).join('·')} 박사후연구원으로, 석사 졸업생 ${f.phdAbroadN}명이 ${f.phdAbroadInst.map(s => shortName(s, 'ko')).join('·')} 박사과정으로 진학했습니다.`]
@@ -1714,15 +1729,15 @@ const JOIN_T = {
     qsTitle: 'Questions we work on',
     qs: [['How many thermal and mechanical cycles can a hybrid-bonded interface in a vertical chip stack survive?', 'Hybrid bonding'],
       ['Can electrochemical memory, which tunes its resistance precisely by moving ions, compute inside the memory itself without moving data?', 'In-memory computing'],
-      ['Can cell measurement data predict the performance and lifetime of a battery pack in advance?', 'Data-driven cell screening'],
+      ['Can cell measurements tell us in advance whether a satellite battery pack will last tens of thousands of cycles?', 'Satellite battery packs'],
       ['At which interface, and under what stress, should fracture be triggered to lift a thin film off its substrate intact?', 'Layer transfer'],
       ['How should heat and pressure be applied to bond a cathode sheet to a solid electrolyte sheet completely, over a large area and at line speed, without cracking either?', 'Roll-to-roll lamination'],
       ['At what pressure and temperature should a solid-state cell operate so that its interfaces stay in full contact as the electrodes swell and shrink with every cycle?', 'Interface integrity'],
       ['How does a freestanding electrode film change during roll-to-roll processing, and where do defects form?', 'Dry electrodes']],
     tracksH: 'Research areas and the skills you will learn', tracksMore: 'Research in detail', skillsLabel: 'Skills', readLabel: 'Read first',
     tracks: {
-      bat: { name: 'Solid-state batteries', need: 'Safer, higher-energy batteries', sum: 'Roll-to-roll lamination that bonds solid sheets across large areas at high speed, operating conditions that keep interfaces intact, dry electrodes and thinner solid electrolytes',
-        skills: ['Glovebox cell assembly', 'Heat and pressure lamination', 'Battery cycling', 'Dry electrode processing', 'Finite element analysis'], read: ['joule26', 'stress-coupled lithium transport'] },
+      bat: { name: 'Advanced batteries', need: 'Safer, longer-lasting batteries, from cell to pack', sum: 'Roll-to-roll lamination that bonds solid sheets across large areas at high speed, operating conditions that keep interfaces intact, dry electrodes, thinner solid electrolytes and long-life packs for low-Earth-orbit (LEO) satellites',
+        skills: ['Glovebox cell assembly', 'Heat and pressure lamination', 'Battery cycling', 'Dry electrode processing', 'Finite element analysis', 'Cell screening and pack lifetime prediction'], read: ['joule26', 'stress-coupled lithium transport'] },
       opt: { name: 'Optoelectronics', need: 'Light into power, power into light', sum: 'Perovskite solar cells, transparent conductors and micro-LED displays',
         skills: ['Solution and vacuum thin films', 'Solar cell fabrication and testing', 'Aerosol deposition', 'Transparent conductors'], read: ['deint24', 'uniaxially oriented perovskite films'] },
       twod: { name: '2D material devices', need: 'High-performance transistors and photonic chips', sum: 'Processes for building high-performance transistors and photonic components from 2D materials, mainly single-crystal Ruddlesden-Popper perovskites and also TMDs',
@@ -1751,7 +1766,7 @@ const JOIN_T = {
       ['I studied mechanical engineering and know little chemistry or materials science. Is that a problem?', `${f.meFamily} of our ${f.grads} graduate students came from mechanical engineering or a related field. You pick up the electrochemistry and semiconductor physics through research, and your mechanical engineering background is used right away in mechanics and process design. What matters more than background is the drive to dig into a new field.`],
       ['Can I apply from another university or major?', `Yes. ${f.otherCount} of our ${f.grads} graduate students did their undergraduate degree at other universities, and besides mechanical engineering, students come from materials science, nanoscience and electrical engineering. Where you studied matters less than how you approach research: we welcome students who are self-motivated about research and who have the persistence to stay with hard problems.`],
       ['Can I join after working in industry?', 'Yes. Prof. Lee himself worked for about three years as a software developer at a systems integration company and spent about four years on semiconductor research at the IBM T.\u00a0J.\u00a0Watson Research Center. Building on that industry experience, the lab works with researchers who come from companies on projects that connect industry and academia. Many students have also joined from companies through company-sponsored study programs or leaves of absence.'],
-      ['How does your research connect to AI?', 'For AI to do more computation with less energy, its hardware has to advance as well, and our semiconductor work connects to this directly. Moving data between memory and processors consumes much of the energy in AI computing, so we work on electrochemical memory that computes where the data is stored, and on layer transfer and hybrid bonding that stack chips vertically to shorten that distance. In our battery work we also use AI as a research tool, training models on cell measurement data to predict performance and lifetime. The center of our research, though, is not algorithms but the precision processes and mechanics of forming and joining the layers of working devices. The lab is a good fit for students who are more interested in building the hardware that AI stands on than in developing AI itself.'],
+      ['How does your research connect to AI?', 'For AI to do more computation with less energy, its hardware has to advance as well, and our semiconductor work connects to this directly. Moving data between memory and processors consumes much of the energy in AI computing, so we work on electrochemical memory that computes where the data is stored, and on layer transfer and hybrid bonding that stack chips vertically to shorten that distance. In our battery work we also use AI as a research tool, training models on cell measurement data to predict performance and lifetime. Our work also connects to AI-driven autonomous manufacturing, in which production lines set and adjust their own process conditions, because such lines rely on the kind of process knowledge we build from mechanics: which physical quantities decide the outcome, and where their limits lie. The center of our research, though, is not algorithms but the precision processes and mechanics of forming and joining the layers of working devices. The lab is a good fit for students who are more interested in building the hardware that AI stands on than in developing AI itself.'],
       ['Should I apply to the MS program or the integrated MS-PhD program?', 'Either is fine, and the choice has little effect on admission quotas or your chances of admission. If you enter the integrated MS-PhD program, however, you skip the MS thesis review when you move on to the PhD stage, which shortens the total time by about a semester. You can also switch to the MS program at any time if you wish, but you cannot switch from the MS program into the integrated program. Because it keeps more options open and saves time if you go on to a PhD, the integrated program can be the better choice.'],
       ['Can I get a job with only an MS?', `Of ${f.ms} MS graduates since 2021, ${f.msIndustry} joined Samsung SDI, Samsung Electronics or SK hynix.`],
       ['Can I gain research experience abroad during the degree?', `Every year since ${f.visitSince}, students have spent a year as visiting researchers abroad, so far at ${andList(f.visitInsts.map(i => shortName(i, 'en')))}, ${f.visitCount} students in all. After graduating, ${f.postdocAbroadN} PhD graduates became postdocs at ${andList(f.postdocAbroadInst.map(s => shortName(s, 'en')).map(n => /^University at /.test(n) ? 'the ' + n : n))}, and ${f.phdAbroadN} MS graduates went on to PhD programs at ${andList(f.phdAbroadInst.map(s => shortName(s, 'en')))}.`]
