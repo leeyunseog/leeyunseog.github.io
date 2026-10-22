@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Energy Device and Nano-Engineering Laboratory</title>
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://energy.snu.ac.kr/">
+  <script>
+    (function () {
+      // Old addresses (Google Sites era and common guesses) -> sections of the new single-page site.
+      var map = {
+        'home': '',
+        'member': '#people', 'members': '#people', 'people': '#people', 'alumni': '#people',
+        'publications': '#publications', 'publication': '#publications', 'papers': '#publications', 'patents': '#publications',
+        'research': '#research', 'facilities': '#research', 'gallery': '#research',
+        'contact-us': '#join', 'contact': '#join', 'join': '#join', 'join-us': '#join', 'recruit': '#join', 'openings': '#join',
+        'news': ''
+      };
+      var path = location.pathname.toLowerCase().replace(/\/+$/, '').replace(/\.html?$/, '');
+      var first = path.split('/').filter(Boolean)[0] || '';
+      if (map.hasOwnProperty(first)) {
+        location.replace('https://energy.snu.ac.kr/' + map[first]);
+      } else {
+        window.__unknownPath = true;
+      }
+    })();
+  </script>
+  <style>
+    body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #1a1f2b; background: #ffffff; }
+    main { max-width: 640px; margin: 12vh auto 0; padding: 0 24px; }
+    h1 { font-size: 1.6rem; margin: 0 0 12px; }
+    p { line-height: 1.6; margin: 0 0 20px; }
+    ul { padding-left: 20px; line-height: 1.9; }
+    a { color: #1f5fbf; }
+    @media (prefers-color-scheme: dark) { body { color: #e6e9ef; background: #0f141c; } a { color: #7fb0ff; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>This page does not exist anymore</h1>
+    <p>The lab website was rebuilt in October 2026 and older addresses no longer work. You will be taken to the homepage in <span id="count">5</span> seconds, or pick a section:</p>
+    <ul>
+      <li><a href="https://energy.snu.ac.kr/">Home</a></li>
+      <li><a href="https://energy.snu.ac.kr/#research">Research</a></li>
+      <li><a href="https://energy.snu.ac.kr/#people">People</a></li>
+      <li><a href="https://energy.snu.ac.kr/#publications">Publications</a></li>
+      <li><a href="https://energy.snu.ac.kr/#join">Join us</a></li>
+    </ul>
+    <p>Energy Device and Nano-Engineering Laboratory, Department of Mechanical Engineering, Seoul National University</p>
+  </main>
+  <script>
+    (function () {
+      if (!window.__unknownPath) return;
+      var n = 5, el = document.getElementById('count');
+      var t = setInterval(function () {
+        n -= 1; if (el) el.textContent = n;
+        if (n <= 0) { clearInterval(t); location.replace('https://energy.snu.ac.kr/'); }
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>
