@@ -838,7 +838,7 @@ const PAPERS = [
   { y: 2026, g: 'joule26', k: 'joule26', t: 'Stress-coupled lithium transport in all-solid-state batteries', a: 'H. Kim, D. Kim, C. Nam, J. T. Kim, Y. Hwang, S. Hwang, S. Jo, S. Seo, H. You, E. Choi, Y. S. Chu, H.-G. Jung, M. Ge, Y. S. Lee, J. Lim', v: 'Joule', l: 'https://doi.org/10.1016/j.joule.2026.102680' },
   { y: 2026, cv: 'jmca-2026', g: 'jmca26', t: 'Phase-pure Ruddlesden-Popper interlayer formation via hybrid processing for efficient perovskite photovoltaics', a: 'J. Park, S. Kim, J. Lee, M. Choi, Y. S. Lee', v: 'Journal of Materials Chemistry A', d: '14, 39288', l: 'https://doi.org/10.1039/d6ta04632k', c: ['Back cover'] },
   { y: 2026, g: 'sstr26', t: 'Ultra-thin polyimide-embedded carbon nanotube-based transparent conductor and its application to foldable perovskite solar cells', a: 'K. H. Lee, J.-M. Choi, J. Lee, J. Han, S. H. Choi, M. Kotora, Y. S. Lee, U. Kim, J. C. Won, S. Park, I. Jeon', v: 'Small Structures', d: '7 (8), e70585', l: 'https://doi.org/10.1002/sstr.70585' },
-  { y: 2026, g: 'mspt26', k: 'mspt26', t: 'Maximum stability point tracking stabilizes wide-bandgap mixed-halide perovskite solar cells', a: 'S. Kim, G. Kim, T. Kim, K. S. Shin, J. Kim, M. Choi, Y. S. Lee, N. Ahn', v: 'Advanced Energy Materials', d: '16 (41), e71358', l: 'https://doi.org/10.1002/aenm.71358', c: ['Front cover'] },
+  { y: 2026, cv: 'aenm-2026', g: 'mspt26', k: 'mspt26', t: 'Maximum stability point tracking stabilizes wide-bandgap mixed-halide perovskite solar cells', a: 'S. Kim, G. Kim, T. Kim, K. S. Shin, J. Kim, M. Choi, Y. S. Lee, N. Ahn', v: 'Advanced Energy Materials', d: '16 (41), e71358', l: 'https://doi.org/10.1002/aenm.71358', c: ['Front cover', 'https://advanced.onlinelibrary.wiley.com/doi/10.1002/aenm.71646'] },
   { y: 2026, g: 'dry26', k: 'dry26', t: 'Dry process for green manufacturing of battery electrodes: structural evolution of freestanding film during roll-to-roll processing', a: 'Y. Jeong, D. Ryu, D. Kim, G. Nam, H. Cho, G. Kwon, S. Paik, C. Lim, E. Choi, H. Choi, H.-D. Kwak, M. Moon, N. Huh, Y. S. Lee', v: 'International Journal of Precision Engineering and Manufacturing-Green Technology', l: 'https://doi.org/10.1007/s40684-026-00885-7' },
   { y: 2026, g: 'adma26', k: 'adma26', t: 'Chemo-mechanical failure and reinforcement of solid electrolyte films for practical all-solid-state Li metal pouch cells', a: 'K. H. Baeck, Y. B. Song, D. Kim, S. Jun, H. Lim, E. Choi, G. Kwon, H.-Y. Kim, K.-S. Oh, S.-P. Han, S.-Y. Lee, H. Yoon, K.-W. Nam, Y. S. Lee, Y. S. Jung', v: 'Advanced Materials', d: '38 (16), e18655', l: 'https://doi.org/10.1002/adma.202518655' },
   { y: 2026, g: 'snpb26', t: 'Heterodimensional interface for improved photovoltage and stability in narrow bandgap Sn–Pb perovskite solar cells via vacancy-ordered double perovskite', a: 'S. Park, S. Kim, Y. Kim, S. Hong, H. W. Jeong, M. H. Park, Y. S. Lee, B. Shin', v: 'Small', d: '22 (19), e11627', l: 'https://onlinelibrary.wiley.com/doi/10.1002/smll.202511627' },
@@ -1171,7 +1171,7 @@ const AREA_PHOTOS = { bat: 'battery-cyclers', opt: 'solar-simulator', twod: 'afm
    img/covers/ (<cv>.webp is 300 px wide, <cv>-lg.webp is the size below); no cv means the
    cover is not out yet and a placeholder is shown. */
 const COVER_DIM = {
-  'jmca-2026': [472, 618], 'acsami-2026': [800, 1064], 'small-2025': [761, 1000], 'solrrl-2025': [755, 1000], 'small-2024': [800, 1052], 'aenm-2024': [800, 1052], 'aelm-2021': [800, 1051], 'aenm-2021': [800, 1052], 'acsami-2021': [800, 1064], 'aenm-2016': [800, 1055], 'adma-2014': [800, 1067]
+  'jmca-2026': [472, 618], 'aenm-2026': [800, 1055], 'acsami-2026': [800, 1064], 'small-2025': [761, 1000], 'solrrl-2025': [755, 1000], 'small-2024': [800, 1052], 'aenm-2024': [800, 1052], 'aelm-2021': [800, 1051], 'aenm-2021': [800, 1052], 'acsami-2021': [800, 1064], 'aenm-2016': [800, 1055], 'adma-2014': [800, 1067]
 };
 const JABBR = { 'Journal of Materials Chemistry A': 'J. Mater. Chem. A', 'Advanced Energy Materials': 'Adv. Energy Mater.',
   'ACS Applied Materials & Interfaces': 'ACS Appl. Mater. Interfaces', 'Advanced Electronic Materials': 'Adv. Electron. Mater.',
@@ -1536,7 +1536,9 @@ function initLightbox() {
       img.removeAttribute('src');
       img.src = `img/covers/${c.img}-lg.webp`; img.width = w; img.height = h; img.alt = `${c.label}, ${c.journal} ${c.y}`;
       img.style.width = Math.round(w * scale) + 'px';
-      cap.innerHTML = `${esc(c.label)}, <i>${esc(c.journal)}</i> ${c.y}<span class="lb-src">${chem(c.p.t)}</span><a href="${esc(c.href)}" ${EXT}>Open article</a>`;
+      // A cover with its own page on the journal site links there, and to the article as well.
+      const links = c.p.c[1] ? `<a href="${esc(c.p.c[1])}" ${EXT}>Cover page</a><a href="${esc(paperHref(c.p))}" ${EXT}>Open article</a>` : `<a href="${esc(c.href)}" ${EXT}>Open article</a>`;
+      cap.innerHTML = `${esc(c.label)}, <i>${esc(c.journal)}</i> ${c.y}<span class="lb-src">${chem(c.p.t)}</span>${links}`;
     } else if (t.dataset.fig) {
       const g = t.dataset.fig, p = BY_FIG[g], [w, h] = TOC_DIM[g];
       const scale = Math.min(w < 800 ? 1.5 : 1, 1120 / w, (window.innerHeight * 0.78) / h);
